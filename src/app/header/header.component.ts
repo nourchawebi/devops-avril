@@ -10,7 +10,10 @@ export class HeaderComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log("nour");
+
+    console.log("tsst");
+
+
   }
 
 }
