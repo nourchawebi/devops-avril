@@ -1,0 +1,20 @@
+services:
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data_avril_deux:/var
+    networks:
+      - keycloakpostgresexternal
+
+volumes:
+  postgres_data_avril_deux:
+networks:
+  keycloakpostgresexternal:
+    external: true
