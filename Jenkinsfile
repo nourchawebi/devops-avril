@@ -22,6 +22,18 @@ deleteDir()}}
   sh "docker build -t nourchawebi/astonvilla:1.1.${env.BUILD_NUMBER}  . "
   }
   }
+    stage('OWASP SCAN') {
+      steps {
+          dependencyCheck additionalArguments: '', odcInstallation: 'DP-CHECK'
+          dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+      }
+  }
+  stage('Docker Image Scan') {
+              steps {
+                  sh "trivy image --format table -o trivy-image-report.html nourchawebi/astonvilla-app:1.1.${env.BUILD_NUMBER} "
+              }
+          }
+
   stage("login")
   {
   steps{
