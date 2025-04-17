@@ -1,7 +1,7 @@
 services:
 
   sonar:
-    image: sonarqube
+    image: sonarqube:latest
     ports:
       - "9000:9000"
     networks:
@@ -23,8 +23,8 @@ services:
       - POSTGRES_USER=sonar
       - POSTGRES_PASSWORD=sonar
     volumes:
-      - postgresql1:/var/lib/postgresql
-      - postgresql_data1:/var/lib/postgresql/data
+      - postgresql4:/var/lib/postgresql
+      - postgresql_data4:/var/lib/postgresql/data
   ngrok:
     image: ngrok/ngrok:latest
     environment:
@@ -49,7 +49,7 @@ volumes:
   sonarqube_data1:
   sonarqube_extensions1:
   sonarqube_bundled-plugins1:
-  postgresql1:
-  postgresql_data1:
+  postgresql4:
+  postgresql_data4:
   sonarqube_extensions:
     external: false
