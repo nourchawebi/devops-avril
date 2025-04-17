@@ -12,7 +12,7 @@ steps{
 deleteDir()}}
   stage("checkout"){
   steps{
-  git url :'https://github.com/nourchawebi/astonvilla-devops.git' , branch : 'main'
+  git url :'https://github.com/nourchawebi/devops-avril.git' , branch : 'master'
   }
   }
   stage("generate docker image")
