@@ -37,3 +37,13 @@ sh "docker push nourchawebi/astonvilla:1.1.${env.BUILD_NUMBER}"
 
 }
 }
+// pipeline {
+//     agent any
+//     stages {
+//         stage('Greetingg') {
+//             steps {
+//                 sh 'echo "Hello we are creating a pipeline for astonvilla App!"'
+//             }
+//         }
+//     }
+// }
