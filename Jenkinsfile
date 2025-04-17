@@ -30,6 +30,7 @@ deleteDir()}}
   }
         stage('Docker Image Scan') {
             steps {
+              sh "trivy clean --java-db"
                 sh "trivy image --skip-db-update --skip-java-db-update --no-progress --format table -o trivy-image-report.html nourchawebi/astonvilla:1.1.${env.BUILD_NUMBER}"
                 sh "rm -rf ~/.cache/trivy"
             }
