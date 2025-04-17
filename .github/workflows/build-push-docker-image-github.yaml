@@ -1,0 +1,42 @@
+name : build push on github package
+on:
+  push:
+    tags:
+      - "v*.*.*"
+jobs:
+  build_push_github_packages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout the repo
+        uses: actions/checkout@v3
+      - name : docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            ghcr.io/nourchawebi/astonvilla-devops
+          tags: |
+            type=schedule #tag based on scheduled events (if any)
+            type= ref,event=branch #tag based on branch references
+            type=sha   #tag based on sha hash of the commit
+            type= semver,pattern={{version}}  # versionning tag
+            type= semver,pattern={{major}}.{{minor}}  #major version tag
+            type= semver,pattern={{major}}
+      - name : set up qemu
+        uses: docker/setup-qemu-action@v2
+      - name: set up docker buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name : login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner}}
+          password: ${{ secrets.GITHUB_TOKEN}}
+      - name: build and push docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{steps.meta.outputs.tags}}
+
