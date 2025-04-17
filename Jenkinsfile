@@ -28,12 +28,12 @@ deleteDir()}}
           dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
       }
   }
-  stage('Docker Image Scan') {
-              steps {
-                  sh "trivy image --format table -o trivy-image-report.html nourchawebi/astonvilla:1.1.${env.BUILD_NUMBER} "
-              }
-          }
-
+        stage('Docker Image Scan') {
+            steps {
+                sh "trivy image --skip-db-update --skip-java-db-update --no-progress --format table -o trivy-image-report.html nourchawebi/astonvilla:1.1.${env.BUILD_NUMBER}"
+                sh "rm -rf ~/.cache/trivy"
+            }
+        }
   stage("login")
   {
   steps{
@@ -43,6 +43,7 @@ stage("push")
 {
 steps{
 sh "docker push nourchawebi/astonvilla:1.1.${env.BUILD_NUMBER}"
+   sh "docker image rm nourchawebi/astonvilla:1.1.${env.BUILD_NUMBER} || true"
 }
 }
 
