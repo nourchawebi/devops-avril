@@ -30,7 +30,7 @@ deleteDir()}}
   }
   stage('Docker Image Scan') {
               steps {
-                  sh "trivy image --format table -o trivy-image-report.html nourchawebi/astonvilla-app:1.1.${env.BUILD_NUMBER} "
+                  sh "trivy image --format table -o trivy-image-report.html nourchawebi/astonvilla:1.1.${env.BUILD_NUMBER} "
               }
           }
 
