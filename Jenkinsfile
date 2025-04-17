@@ -28,20 +28,13 @@ deleteDir()}}
           dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
       }
   }
-stage('Docker Image Scan') {
-    steps {
-        // First, make sure Trivy DB is initialized (only needed once)
-        sh '''
-            if [ ! -d ~/.cache/trivy/db ] || [ ! -f ~/.cache/trivy/java.db ]; then
-                echo "Downloading Trivy databases for the first time..."
-                trivy image --no-progress --format table -o trivy-image-report.html nourchawebi/astonvilla:1.1.${BUILD_NUMBER}
-            else
-                echo "Using cached DBs, skipping Java DB update..."
-                trivy image --skip-db-update --skip-java-db-update --no-progress --format table -o trivy-image-report.html nourchawebi/astonvilla:1.1.${BUILD_NUMBER}
-            fi
-        '''
-    }
-}
+        stage('Docker Image Scan') {
+            steps {
+                echo "Scanning Docker image with Trivy..."
+                sh "trivy clean --java-db"
+                sh "trivy image --timeout 20m --format table --scanners vuln --debug --ignore-unfixed -o trivy-imageesprit-report.html nourchawebi/astonvilla:1.1.${env.BUILD_NUMBER}"
+            }
+        }
 
   stage("login")
   {
