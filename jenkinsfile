@@ -1,0 +1,11 @@
+pipeline {
+agent any
+stages{
+   stage('greeting')
+   {
+   steps{
+        sh 'echoo " hello from github"'
+   }
+   }
+}
+}
