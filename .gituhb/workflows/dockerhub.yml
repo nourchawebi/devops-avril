@@ -2,7 +2,7 @@ name: build and push docker image to docker hub
 on:
   push:
     branches:
-      - master
+      - nour
 jobs:
   push_to_dockerhub:
     name: push docker image to docker hub
