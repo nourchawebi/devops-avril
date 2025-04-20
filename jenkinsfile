@@ -32,7 +32,7 @@ steps{
 }
 }
 }
-
+}
 // pipeline {
 // agent any
 // stages{
