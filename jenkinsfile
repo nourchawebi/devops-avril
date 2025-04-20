@@ -20,6 +20,11 @@ steps{
 sh "docker build -t nourchawebi/astonvilla:1.1.${env.BUILD_NUMBER}  . "
 }
 }
+stage("owasp check scan"){
+steps{
+dependencyCheck additionalArguments: '' odcInstallation: 'DP-CHECK'
+dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+}}
 stage("login to docker hub"){
 steps{
 sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
