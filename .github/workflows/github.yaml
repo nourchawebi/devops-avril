@@ -3,7 +3,7 @@ on:
   push:
     tags:
       - "v*.*.*"
-job:
+jobs:
   build_push_github_packages:
     runs-on: ubuntu-latest
     steps:
@@ -13,9 +13,9 @@ job:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: |
+         images: |
             ghcr.io/nourchawebi/devops-avril/astonvilla
-          tags: |
+         tags: |
             type=ref,event=branch
             type=ref,event=pr
             type=semver,pattern={{version}}
