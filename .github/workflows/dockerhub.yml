@@ -1,28 +1,52 @@
 name: build and push docker image to docker hub
+
 on:
   push:
     branches:
       - master
-jobs:
 
+jobs:
   push_to_dockerhub:
-    name: push docker image to docker hub
+    name: build and push docker image, then update argotest repo
     runs-on: ubuntu-latest
+
     steps:
-      - name: checkout the repo
+      - name: Checkout this repo
         uses: actions/checkout@v4
-      - name : set up docker buildx
+
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name : login to docker hub
+
+      - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: build and push docker image
+
+      - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
           context: .
           push: true
-          tags: nourchawebi/astonvilla:1.1.${{github.run_number}}
+          tags: nourchawebi/astonvilla:1.1.${{ github.run_number }}
 
+      - name: Checkout argotest repo
+        uses: actions/checkout@v4
+        with:
+          repository: nourchawebi/argotest
+          token: ${{ secrets.GHCR_TOKEN }} # Crée un token PAT avec accès en écriture
+          path: argotest
+          ref: main
 
+      - name: Update image tag in astonvilla-deployment.yaml
+        run: |
+          sed -i 's|image: nourchawebi/astonvilla:.*|image: nourchawebi/astonvilla:1.1.${{ github.run_number }}|' argotest/astonvilla-app/astonvilla-deployment.yaml
+
+      - name: Commit and push changes to argotest
+        run: |
+          cd argotest
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add argocd/astonvilla-app/astonvilla-deployment.yaml
+          git commit -m "Update astonvilla image tag to 1.1.${{ github.run_number }}"
+          git push
