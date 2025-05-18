@@ -39,7 +39,7 @@ jobs:
           ref: main 
       - name: Update image tag in astonvilla-deployment.yaml
         run: |
-           sed -i 's|image:nourchawebi/astonvilla:.*| image:nourchawebi/astonvilla:1.1.${{ github.run_number }}|' argotest/astonvilla-app/astonvilla-deployment.yaml
+           sed -i 's|image: nourchawebi/astonvilla:.*| image: nourchawebi/astonvilla:1.1.${{ github.run_number }}|' argotest/astonvilla-app/astonvilla-deployment.yaml
       - name: Commit and push changes to argotest
         run: |
           cd argotest
