@@ -45,7 +45,7 @@ jobs:
       - name: Commit and push changes to argotest
         run: |
           cd argotest
-          git config user.name "github-actions"
+          git config user.name "github-actionss"
           git config user.email "github-actions@github.com"
           git add astonvilla-app/astonvilla-deployment.yaml
           git commit -m "Update astonvilla image tag to 1.1.${{ github.run_number }}"
