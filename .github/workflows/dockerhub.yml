@@ -45,7 +45,7 @@ jobs:
           cd argotest
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add astonvila-app/astonvilla-deployment.yaml
+          git add astonvilla-app/astonvilla-deployment.yaml
           git commit -m "updated by githubaction workflow"
           git push
            
